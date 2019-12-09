@@ -1,0 +1,25 @@
+{
+  "name": "whisperer-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:BolajiOlajide/whisperer-api.git",
+  "author": "Bolaji Olajide <cooproton@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bookshelf": "^1.0.1",
+    "bookshelf-bcrypt": "^3.0.2",
+    "dotenv": "^8.2.0",
+    "env-utils": "^2.2.1",
+    "knex": "^0.20.4",
+    "lazy-config": "^3.0.1",
+    "mysql2": "^2.0.2",
+    "ramda": "^0.26.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.1"
+  },
+  "scripts": {
+    "dev": "nodemon .",
+    "start": "node ."
+  }
+}
