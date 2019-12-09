@@ -16,10 +16,31 @@ module.exports = gql`
     whisperer: User!
   }
 
+  input NewUser {
+    firstname: String!
+    password: String!
+    lastname: String!
+    email: String!
+  }
+
+  input AuthPayload {
+    email: String!
+    password: String!
+  }
+
+  type AuthResponse {
+    user: User!
+    token: String!
+  }
+
   type Query {
     users: [User]!,
-    user: User,
     profile: User!,
     whispers: [Whisper]!
+    signin(payload: AuthPayload): AuthResponse
+  }
+
+  type Mutation {
+    createUser(payload: NewUser): AuthResponse
   }
 `;
