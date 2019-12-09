@@ -12,10 +12,24 @@ module.exports = gql`
     email: String!
   }
 
+  type Whisperer {
+    id: Int!
+    username: String!
+  }
+
   type Whisper {
     id: Int!
     text: String!
-    whisperer: User!
+    whisperer: Whisperer!
+  }
+
+  type Profile {
+    id: Int!
+    firstname: String!
+    lastname: String!
+    username: String!
+    email: String!
+    whispers: [Whisper]!
   }
 
   input NewUser {
@@ -30,6 +44,10 @@ module.exports = gql`
     password: String!
   }
 
+  input WhisperPayload {
+    text: String!
+  }
+
   type AuthResponse {
     user: User!
     token: String!
@@ -37,12 +55,13 @@ module.exports = gql`
 
   type Query {
     users: [User]!,
-    profile: User!,
+    profile: Profile!,
     whispers: [Whisper]!
   }
 
   type Mutation {
     createUser(payload: NewUser): AuthResponse
     signin(payload: AuthPayload): AuthResponse
+    createWhisper(payload: WhisperPayload): Whisper
   }
 `;
