@@ -18,6 +18,7 @@ module.exports = gql`
 
   type Query {
     users: [User]!,
+    user: User,
     profile: User!,
     whispers: [Whisper]!
   }

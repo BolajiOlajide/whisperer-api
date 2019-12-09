@@ -2,9 +2,11 @@ const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const logger = require('winston');
 const config = require('lazy-config');
+const cors = require('cors');
 
 const typeDefs = require('./schema');
 const resolvers = require('./resolvers');
+const context = require('./utils/context');
 
 
 const app = express();
@@ -18,12 +20,14 @@ const apolloOpts = {
   resolvers,
   playground: true,
   debug: config.isDev,
-  cors: true
+  cors: true,
+  context
 };
 const server = new ApolloServer(apolloOpts);
 
+app.use(cors())
 server.applyMiddleware({ app, path: graphqlpath });
 
 app.listen({ port }, () =>
-  console.log(`🚀 Server ready at http://localhost:${port}/${graphqlpath}`)
+  logger.info(`🚀 Server ready at http://localhost:${port}/${graphqlpath}`)
 )
