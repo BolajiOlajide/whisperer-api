@@ -15,13 +15,18 @@
     "knex": "^0.20.4",
     "lazy-config": "^3.0.1",
     "mysql2": "^2.0.2",
-    "ramda": "^0.26.1"
+    "shortid": "^2.2.15",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.1"
   },
   "scripts": {
     "dev": "nodemon .",
-    "start": "node ."
+    "start": "node .",
+    "migrate": "knex migrate:latest",
+    "seed": "knex seed:run",
+    "db:prepare": "yarn migrate && yarn seed",
+    "make:migration": "knex migrate:make $*"
   }
 }

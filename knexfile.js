@@ -3,7 +3,6 @@ const config = require('lazy-config');
 
 module.exports = {
   client: 'mysql2',
-  debug: false,
   pool: { min: 2, max: 10 },
   migrations: { tableName: 'knex_migrations' },
   seeds: { directory: './seeds' },
