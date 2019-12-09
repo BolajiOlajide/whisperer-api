@@ -1,3 +1,3 @@
 const database = require('../db');
 
-module.exports = bookshelf.Model.extend({ tableName: 'users' });
+module.exports = database.Model.extend({ tableName: 'users' });

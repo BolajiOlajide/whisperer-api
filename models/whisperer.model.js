@@ -1,7 +1,7 @@
 const database = require('../db');
 const User = require('./user.model');
 
-module.exports = bookshelf.Model.extend({
+module.exports = database.Model.extend({
   tableName: 'whisperers',
-  user: () => this.belongsTo(User)
+  whisperer: () => this.belongsTo(User)
 });

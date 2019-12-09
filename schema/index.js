@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server');
+const { gql } = require('apollo-server-express');
 
 
 module.exports = gql`
@@ -8,14 +8,17 @@ module.exports = gql`
     lastname: String!
     username: String!
     email: String!
-    password: String!
-    createdat: DateTime!
   }
 
   type Whisper {
     id: Int!
     text: String!
     whisperer: User!
-    createdat: DateTime!
+  }
+
+  type Query {
+    users: [User]!,
+    profile: User!,
+    whispers: [Whisper]!
   }
 `;
