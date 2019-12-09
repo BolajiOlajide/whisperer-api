@@ -14,8 +14,11 @@ exports.userQueries = {
   profile: async (_, args, context) => {
     if (!context.user) return authError();
 
-    const _users = await User.fetchAll();
-    return _users.toJSON();
+    const { id } = context.user;
+
+    const user = await User.where('id', id).fetch();
+
+    return user.toJSON();
   }
 }
 
