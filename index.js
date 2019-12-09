@@ -21,7 +21,15 @@ const apolloOpts = {
   playground: true,
   debug: config.isDev,
   cors: true,
-  context
+  context,
+  formatError: (error) => {
+    const shouldMask = error.message.startsWith("Database Error: ") && config.isProd;
+    if (shouldMask) {
+      return new Error('Internal server error');
+    }
+
+    return error;
+  },
 };
 const server = new ApolloServer(apolloOpts);
 
