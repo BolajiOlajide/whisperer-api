@@ -16,6 +16,20 @@ exports.userQueries = {
 
     const _users = await User.fetchAll();
     return _users.toJSON();
+  }
+}
+
+exports.userMutations = {
+  createUser: async (_, args) => {
+    const username = shortid.generate();
+    const _user = await new User({
+      ...args.payload,
+      username
+    }).save();
+    const user = _user.toJSON();
+    const token = createJwt(user.id);
+
+    return { user, token };
   },
   signin: async (_, args) => {
     const { email, password } = args.payload;
@@ -37,20 +51,6 @@ exports.userQueries = {
     const isPasswordValid = await _user.compare(password);
 
     if (!isPasswordValid) return wrongCredError();
-    const token = createJwt(user.id);
-
-    return { user, token };
-  }
-}
-
-exports.userMutations = {
-  createUser: async (_, args) => {
-    const username = shortid.generate();
-    const _user = await new User({
-      ...args.payload,
-      username
-    }).save();
-    const user = _user.toJSON();
     const token = createJwt(user.id);
 
     return { user, token };
