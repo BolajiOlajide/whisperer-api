@@ -2,6 +2,7 @@ const logger = require('winston');
 
 const { WHISPERER_TABLE_NAME } = require('../utils/constants');
 
+
 exports.up = function (knex) {
   return knex.schema
     .createTable(WHISPERER_TABLE_NAME, table => {

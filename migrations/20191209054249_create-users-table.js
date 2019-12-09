@@ -2,6 +2,7 @@ const logger = require('winston');
 
 const { USER_TABLE_NAME } = require('../utils/constants');
 
+
 exports.up = function (knex) {
   return knex.schema
     .createTable(USER_TABLE_NAME, table => {
