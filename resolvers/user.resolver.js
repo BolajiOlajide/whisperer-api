@@ -47,7 +47,6 @@ exports.userMutations = {
     }
 
     if (Object.keys(user).length === 0) {
-      console.log('====>', user)
       return notFoundError(`User with email ${email} doesnt exist!`)
     }
 
