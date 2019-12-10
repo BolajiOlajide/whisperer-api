@@ -6,7 +6,7 @@ const { USER_TABLE_NAME } = require('../utils/constants');
 exports.up = function (knex) {
   return knex.schema
     .createTable(USER_TABLE_NAME, table => {
-      table.increments('id').comment('This is the primary key for this table');
+      table.increments().comment('This is the primary key for this table');
       table.string('firstname').notNullable().comment('The firstname identifier for the user');
       table.string('lastname').notNullable();
       table.string('email').notNullable().unique();
@@ -18,6 +18,6 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
   return knex
-    .schema.dropTable(USER_TABLE_NAME)
+    .schema.dropTableIfExists(USER_TABLE_NAME)
     .catch(error => logger.error(error));
 };

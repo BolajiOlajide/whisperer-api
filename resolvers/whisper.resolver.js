@@ -6,7 +6,7 @@ exports.whisperQueries = {
   whispers: async (_, args, context) => {
     if (!context.user) return authError();
 
-    const whispers = await Whisper.fetchAll({ withRelated: ['whisperer'] });
+    const whispers = await Whisper.fetchAll({ withRelated: ['owner'] });
     return whispers.toJSON();
   }
 }

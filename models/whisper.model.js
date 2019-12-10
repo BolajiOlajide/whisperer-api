@@ -3,9 +3,9 @@ const User = require('./user.model');
 
 
 class Whisper extends database.Model {
-  get tableName() { return 'whisperers'; }
+  get tableName() { return 'whispers'; }
 
-  whisperer() { return this.belongsTo(User, 'whisperer'); }
+  owner() { return this.belongsTo(User, 'whisperer'); }
 }
 
 module.exports = Whisper;
