@@ -1,7 +1,7 @@
 const database = require('../db');
 const Whisper = require('./whisper.model');
 
-module.exports = database.Model.extend({
+const User = database.Model.extend({
   tableName: 'users',
   bcrypt: { field: 'password' },
   hidden: ['password'],
@@ -9,3 +9,5 @@ module.exports = database.Model.extend({
     return this.hasMany(Whisper, 'whisperer')
   }
 });
+
+module.exports = User;
