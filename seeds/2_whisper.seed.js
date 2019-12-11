@@ -22,7 +22,6 @@ exports.seed = async knex => {
     await knex(WHISPERER_TABLE_NAME).del();
     await knex(WHISPERER_TABLE_NAME).insert(whispers);
   } catch (error) {
-    console.log('====>', error.message)
     logger.error(error);
   }
 }
