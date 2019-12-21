@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const config = require('lazy-config');
 
+const userLoader = require('../dataloaders/user.loader');
+
 
 module.exports = ({ req }) => {
   const token = req.headers.authorization || '';
@@ -11,5 +13,6 @@ module.exports = ({ req }) => {
   } catch {
     user = null;
   }
-  return { user }
+
+  return { user, userLoader }
 }

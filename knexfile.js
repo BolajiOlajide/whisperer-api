@@ -13,5 +13,5 @@ module.exports = {
     database: config.db.name
   },
   charset: 'utf8',
-  debug: false
+  debug: true
 };
