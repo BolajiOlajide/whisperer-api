@@ -3,6 +3,7 @@ const { ApolloServer } = require('apollo-server-express');
 const logger = require('winston');
 const config = require('lazy-config');
 const cors = require('cors');
+const depthLimit = require('graphql-depth-limit');
 
 const typeDefs = require('./schema');
 const resolvers = require('./resolvers');
@@ -30,6 +31,7 @@ const apolloOpts = {
 
     return error;
   },
+  validationRules: [depthLimit(10)]
 };
 const server = new ApolloServer(apolloOpts);
 

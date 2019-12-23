@@ -1,5 +1,6 @@
 const Whisper = require('../models/whisper.model');
 const User = require('../models/user.model');
+const { authError, notFoundError, wrongCredError } = require('../utils/errors');
 
 
 exports.whisperQueries = {
