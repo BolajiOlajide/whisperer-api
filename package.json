@@ -7,8 +7,6 @@
   "license": "MIT",
   "dependencies": {
     "apollo-server-express": "^2.9.13",
-    "bookshelf": "^1.0.1",
-    "bookshelf-bcrypt": "^3.0.2",
     "cors": "^2.8.5",
     "dataloader": "^2.0.0",
     "dotenv": "^8.2.0",
