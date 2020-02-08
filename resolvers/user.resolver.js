@@ -8,7 +8,7 @@ exports.userQueries = {
   users: async (_, args, context) => {
     if (!context.user) return authError();
 
-    const users = await User.fetchAll({ withRelated: ['whispers'] });
+    const users = await User.fetchAll();
     return users.toJSON();
   },
   profile: async (_, args, context) => {

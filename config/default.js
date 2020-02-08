@@ -12,7 +12,8 @@ module.exports = {
 
   app: {
     port: lazyGetEnvVar('PORT', { devDefault: '8100', optional: true }),
-    graphqlpath: '/graphql'
+    graphqlpath: '/graphql',
+    subscriptionsPath: '/subscriptions'
   },
 
   authentication: {

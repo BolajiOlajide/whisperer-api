@@ -1,5 +1,5 @@
 const { userQueries, userMutations } = require('./user.resolver');
-const { whisperQueries, whisperMutations } = require('./whisper.resolver');
+const { whisperQueries, whisperMutations, whisperSubscription } = require('./whisper.resolver');
 
 module.exports = {
   Query: {
@@ -9,5 +9,8 @@ module.exports = {
   Mutation: {
     ...whisperMutations,
     ...userMutations
+  },
+  Subscription: {
+    ...whisperSubscription
   }
 };

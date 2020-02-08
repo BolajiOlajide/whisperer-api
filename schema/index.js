@@ -64,4 +64,13 @@ module.exports = gql`
     signin(payload: AuthPayload): AuthResponse
     createWhisper(payload: WhisperPayload): Whisper
   }
+
+  type WhisperInfo {
+    user: String!
+    whisper: String!
+  }
+
+  type Subscription {
+    whisperAdded: WhisperInfo
+  }
 `;
