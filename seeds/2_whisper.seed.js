@@ -3,7 +3,7 @@ const R = require('ramda');
 const logger = require('winston');
 
 const database = require('../db');
-const { WHISPERER_TABLE_NAME } = require('../utils/constants');
+const { WHISPER_TABLE_NAME } = require('../utils/constants');
 const shuffler = require('../utils/shuffle');
 
 
@@ -19,8 +19,8 @@ exports.seed = async knex => {
     });
     const whispers = R.times(createWhisper, 100);
 
-    await knex(WHISPERER_TABLE_NAME).del();
-    await knex(WHISPERER_TABLE_NAME).insert(whispers);
+    await knex(WHISPER_TABLE_NAME).del();
+    await knex(WHISPER_TABLE_NAME).insert(whispers);
   } catch (error) {
     logger.error(error);
   }

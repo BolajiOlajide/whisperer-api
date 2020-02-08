@@ -1,13 +1,10 @@
 const shortid = require('shortid');
 const F = require('ng-faker');
 const R = require('ramda');
-const bcrypt = require('bcrypt');
 
 const { USER_TABLE_NAME } = require('../utils/constants');
+const { encryptPassword } = require('../utils/password');
 
-
-const encryptPassword = password => bcrypt
-  .hashSync(password, bcrypt.genSaltSync(10));
 
 const createUser = () => ({
   username: shortid.generate(),

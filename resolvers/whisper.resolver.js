@@ -1,16 +1,17 @@
-const Whisper = require('../models/whisper.model');
-const User = require('../models/user.model');
+const knex = require('../db');
 const { authError } = require('../utils/errors');
 const pubsub = require('../utils/pubsub');
 const { WHISPER_ADDED } = require('../utils/constants');
+const { USER_TABLE_NAME, WHISPER_TABLE_NAME } = require('../utils/constants');
 
 
 exports.whisperQueries = {
   whispers: async (_, args, context) => {
     if (!context.user) return authError();
 
-    const whispers = await Whisper.fetchAll({ withRelated: ['whisperer'] });
-    return whispers.toJSON();
+    return knex(WHISPER_TABLE_NAME)
+      .select(`${WHISPER_TABLE_NAME}.*, ${USER_TABLE_NAME}.* AS whisperer`)
+      .innerJoin(USER_TABLE_NAME, `${USER_TABLE_NAME}.id`, `${WHISPER_TABLE_NAME}.whisperer`)
   }
 }
 
@@ -18,19 +19,15 @@ exports.whisperMutations = {
   createWhisper: async (_, args, context) => {
     if (!context.user) return authError();
 
-    const _whisper = await new Whisper({
-      ...args.payload,
-      whisperer: context.user.id
-    }).save();
+    const whisper = await knex(WHISPER_TABLE_NAME)
+      .insert({ ...args.payload, whisperer: context.user.id });
 
-    const _user = await User
+    const user = await knex(USER_TABLE_NAME)
       .where('id', context.user.id)
-      .fetch();
-
-    const whisper = _whisper.toJSON();
-    const user = _user.toJSON();
+      .select();
 
     pubsub.publish(WHISPER_ADDED, { user: user.username, whisper: whisper.text })
+
     return {
       ...whisper,
       whisperer: user
