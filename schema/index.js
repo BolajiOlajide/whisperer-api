@@ -54,7 +54,7 @@ module.exports = gql`
   }
 
   type Query {
-    users: [User]!,
+    users: [Whisperer]!,
     profile: Profile!,
     whispers: [Whisper]!
   }
@@ -65,12 +65,7 @@ module.exports = gql`
     createWhisper(payload: WhisperPayload): Whisper
   }
 
-  type WhisperInfo {
-    user: String!
-    whisper: String!
-  }
-
   type Subscription {
-    whisperAdded: WhisperInfo
+    whisperAdded: Whisper
   }
 `;

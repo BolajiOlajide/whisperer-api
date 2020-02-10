@@ -4,11 +4,12 @@ const R = require('ramda');
 const knex = require('../db');
 const { authError, notFoundError, wrongCredError } = require('../utils/errors');
 const { createJwt } = require('../utils/jwt');
-const { USER_TABLE_NAME } = require('../utils/constants');
+const { USER_TABLE_NAME, WHISPER_TABLE_NAME } = require('../utils/constants');
 const { encryptPassword, comparePassword } = require('../utils/password');
+const { pluckWhispers, pluckWhisperer } = require('../utils');
 
 exports.userQueries = {
-  users: async (_, args, context) => {
+  users: async (_, __, context) => {
     if (!context.user) return authError();
 
     return knex(USER_TABLE_NAME)
@@ -19,9 +20,21 @@ exports.userQueries = {
 
     const { id } = context.user;
 
-    return knex(USER_TABLE_NAME)
-      .select('id', 'firstname', 'lastname', 'email', 'username')
-      .where('id', id);
+    const joinQuery = [
+      WHISPER_TABLE_NAME,
+      `${WHISPER_TABLE_NAME}.whisperer`,
+      `${USER_TABLE_NAME}.id`
+    ];
+    const result = await knex(USER_TABLE_NAME)
+      .select('*')
+      .leftJoin(...joinQuery)
+      .options({ nestTables: true }) // only available in MySQL
+      .where(`${USER_TABLE_NAME}.id`, id);
+
+    const whispers = pluckWhispers(result);
+    const whisperer = pluckWhisperer(result);
+
+    return { ...whisperer, whispers: whispers };
   }
 }
 
@@ -30,33 +43,43 @@ exports.userMutations = {
     const username = shortid.generate();
     const password = encryptPassword(args.payload.password);
 
-    const user = await knex(USER_TABLE_NAME)
+    const [userId] = await knex(USER_TABLE_NAME)
       .insert({
         ...args.payload,
         username,
         password
       });
-    const token = createJwt(user.id);
 
-    return { user, token };
+    const token = createJwt(userId);
+    const user = await knex(USER_TABLE_NAME)
+      .select()
+      .where('id', userId)
+      .first();
+
+    const { password: userPassword, ...userInfo } = user;
+
+    return { user: userInfo, token };
   },
   signin: async (_, args) => {
     const { email, password } = args.payload;
 
     const user = await knex(USER_TABLE_NAME)
-      .select('id', 'firstname', 'lastname', 'email', 'username')
-      .where('email', email);
+      .select('*')
+      .where('email', email)
+      .first();
 
-    if (R.isEmpty(user)) {
+    if (R.isNil(user)) {
       return notFoundError(`User with email ${email} doesnt exist!`)
     }
 
-    const isPasswordValid = comparePassword(password, user.password);
+    const { password: userPassword, ...userInfo } = user;
+
+    const isPasswordValid = comparePassword(password, userPassword);
 
     if (!isPasswordValid) return wrongCredError();
 
-    const token = createJwt(user.id);
+    const token = createJwt(userInfo.id);
 
-    return { user, token };
+    return { user: userInfo, token };
   }
 }

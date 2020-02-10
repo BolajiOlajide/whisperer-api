@@ -1,10 +1,11 @@
 const DataLoader = require('dataloader');
 
-const db = require('../db');
+const knex = require('../db');
+const { USER_TABLE_NAME } = require('../utils/constants');
 
 
 module.exports = new DataLoader(async keys => {
-  const users = await db.knex.select().whereIn('id', keys);
+  const users = await knex(USER_TABLE_NAME).select().whereIn('id', keys);
 
   const userMap = {};
   users.forEach(user => userMap[user.id] = user);
