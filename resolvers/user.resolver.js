@@ -41,13 +41,28 @@ exports.userQueries = {
 exports.userMutations = {
   createUser: async (_, args) => {
     const username = shortid.generate();
-    const password = encryptPassword(args.payload.password);
+
+    const {
+      password,
+      confirmPassword,
+      firstname,
+      lastname,
+      email
+    } = args.payload;
+
+    if (password !== confirmPassword) {
+      throw new Error('Password and confirmPassword don\'t match');
+    }
+
+    const encryptedPassword = encryptPassword(args.payload.password);
 
     const [userId] = await knex(USER_TABLE_NAME)
       .insert({
-        ...args.payload,
+        firstname,
+        lastname,
+        email,
         username,
-        password
+        password: encryptedPassword
       });
 
     const token = createJwt(userId);

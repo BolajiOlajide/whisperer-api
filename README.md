@@ -82,6 +82,7 @@ mutation {
       lastname: "Proton"
       email: "bolaji@proton.me"
       password: "password123"
+      confirmPassword: "password123"
     }
   ) {
     token
