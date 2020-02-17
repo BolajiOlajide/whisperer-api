@@ -37,6 +37,7 @@ module.exports = gql`
     password: String!
     lastname: String!
     email: String!
+    confirmPassword: String!
   }
 
   input AuthPayload {
@@ -48,21 +49,35 @@ module.exports = gql`
     text: String!
   }
 
+  input CommentPayload {
+    comment: String!
+    whisper: Int!
+  }
+
   type AuthResponse {
     user: User!
     token: String!
   }
 
+  type Comment {
+    id: Int!
+    comment: String!
+    whisper: Whisper!
+    commenter: Whisperer!
+  }
+
   type Query {
-    users: [Whisperer]!,
+    users(limit: Int, page: Int): [Whisperer]!,
     profile: Profile!,
-    whispers: [Whisper]!
+    whispers(limit: Int, page: Int): [Whisper]!
+    fetchWhisperComments(whisperId: Int!, limit: Int, page: Int): [Comment]!
   }
 
   type Mutation {
     createUser(payload: NewUser): AuthResponse
     signin(payload: AuthPayload): AuthResponse
     createWhisper(payload: WhisperPayload): Whisper
+    createComment(payload: CommentPayload): Comment
   }
 
   type Subscription {

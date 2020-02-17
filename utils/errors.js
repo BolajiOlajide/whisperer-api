@@ -17,3 +17,7 @@ exports.wrongCredError = () => {
     'INCORRECTCREDENTIALS'
   )
 }
+
+exports.stressError = message => {
+  throw new ApolloError(`Don\'t stress me plix - ${message}`)
+}

@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require('lazy-config');
 
 const userLoader = require('../dataloaders/user.loader');
+const whisperLoader = require('../dataloaders/whisper.loader');
 
 
 module.exports = ({ req, connection }) => {
@@ -17,5 +18,5 @@ module.exports = ({ req, connection }) => {
     user = null;
   }
 
-  return { user, userLoader }
+  return { user, userLoader, whisperLoader }
 }
