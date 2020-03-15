@@ -4,3 +4,5 @@ exports.COMMENT_TABLE_NAME = 'comment';
 
 exports.WHISPER_ADDED = 'WHISPER_ADDED';
 exports.WHISPER_COMMENT = 'WHISPER_COMMENT';
+
+exports.TOKEN_COOKIE_KEY = 'whisper_token';

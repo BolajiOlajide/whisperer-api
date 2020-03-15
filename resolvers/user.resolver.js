@@ -4,7 +4,11 @@ const R = require('ramda');
 const knex = require('../db');
 const { authError, notFoundError, wrongCredError } = require('../utils/errors');
 const { createJwt } = require('../utils/jwt');
-const { USER_TABLE_NAME, WHISPER_TABLE_NAME } = require('../utils/constants');
+const {
+  USER_TABLE_NAME,
+  WHISPER_TABLE_NAME,
+  TOKEN_COOKIE_KEY
+} = require('../utils/constants');
 const { encryptPassword, comparePassword } = require('../utils/password');
 const { pluckWhispers, pluckWhisperer } = require('../utils');
 
@@ -39,7 +43,7 @@ exports.userQueries = {
 }
 
 exports.userMutations = {
-  createUser: async (_, args) => {
+  createUser: async (_, args, context) => {
     const username = shortid.generate();
 
     const {
@@ -73,9 +77,14 @@ exports.userMutations = {
 
     const { password: userPassword, ...userInfo } = user;
 
+    context.response.cookie(TOKEN_COOKIE_KEY, token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 365
+    });
+
     return { user: userInfo, token };
   },
-  signin: async (_, args) => {
+  signin: async (_, args, context) => {
     const { email, password } = args.payload;
 
     const user = await knex(USER_TABLE_NAME)
@@ -94,6 +103,11 @@ exports.userMutations = {
     if (!isPasswordValid) return wrongCredError();
 
     const token = createJwt(userInfo.id);
+
+    context.response.cookie(TOKEN_COOKIE_KEY, token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 365
+    });
 
     return { user: userInfo, token };
   }

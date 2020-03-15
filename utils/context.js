@@ -5,18 +5,27 @@ const userLoader = require('../dataloaders/user.loader');
 const whisperLoader = require('../dataloaders/whisper.loader');
 
 
-module.exports = ({ req, connection }) => {
+module.exports = ({ req, connection, res }) => {
   if (connection) {
     return connection.context;
   }
-  const token = req.headers.authorization || '';
+
+  console.log(req.cookies);
+  const token = req.cookies.token || req.headers.authorization || '';
   let user;
 
-  try {
-    user = jwt.verify(token, config.authentication.secret);
-  } catch {
-    user = null;
+  if (token) {
+    try {
+      user = jwt.verify(token, config.authentication.secret);
+    } catch {
+      user = null;
+    }
   }
 
-  return { user, userLoader, whisperLoader }
+  return {
+    user,
+    userLoader,
+    whisperLoader,
+    response: res
+  }
 }
