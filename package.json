@@ -6,7 +6,7 @@
   "author": "Bolaji Olajide",
   "license": "MIT",
   "dependencies": {
-    "apollo-server-express": "^2.9.13",
+    "apollo-server-express": "^2.14.2",
     "bcrypt": "^3.0.8",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
