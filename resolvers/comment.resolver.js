@@ -1,7 +1,8 @@
 const knex = require('../db');
 const { authError } = require('../utils/errors');
-const { COMMENT_TABLE_NAME } = require('../utils/constants');
+const { COMMENT_TABLE_NAME, WHISPER_COMMENT_ADDED } = require('../utils/constants');
 const { checkLimitPageExist } = require('../utils/pagination');
+const pubsub = require('../utils/pubsub');
 
 
 exports.commentQueries = {
@@ -27,8 +28,15 @@ exports.commentMutations = {
     const [commentId] = await knex(COMMENT_TABLE_NAME)
       .insert(dbPayload);
 
+    // pubsub.publish(WHISPER_COMMENT_ADDED, response);
+
     return { ...args.payload, id: commentId, commenter: userId };
   }
 };
 
-exports.commentSubscriptions = {}
+exports.commentSubscriptions = {
+  // whisperAdded: {
+  //   resolve: payload => payload,
+  //   subscribe: () => pubsub.asyncIterator(WHISPER_COMMENT_ADDED),
+  // }
+}

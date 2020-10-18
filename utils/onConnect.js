@@ -13,7 +13,7 @@ module.exports = (connectionParams, webSocket, context) => {
     try {
       user = jwt.verify(token, config.authentication.secret);
     } catch {
-      user = null;
+      throw new Error('Missing / Invalid authorization token!');
     }
   }
 
