@@ -35,7 +35,7 @@ exports.commentMutations = {
 };
 
 exports.commentSubscriptions = {
-  // whisperAdded: {
+  // commentAdded: {
   //   resolve: payload => payload,
   //   subscribe: () => pubsub.asyncIterator(WHISPER_COMMENT_ADDED),
   // }

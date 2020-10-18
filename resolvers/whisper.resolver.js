@@ -24,7 +24,8 @@ exports.whisperMutations = {
 
     const whisper = {
       id: whisperId,
-      text
+      text,
+      whisperer: context.user.id
     }
 
     pubsub.publish(WHISPER_ADDED, whisper);
