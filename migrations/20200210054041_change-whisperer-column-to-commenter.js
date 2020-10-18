@@ -16,7 +16,6 @@ exports.down = function (knex) {
   return knex.schema
     .alterTable(COMMENT_TABLE_NAME, table => {
       table.renameColumn('commenter', 'whisperer');
-      table.string('lastname').notNullable();
     })
     .catch(error => logger.error(error));
 };

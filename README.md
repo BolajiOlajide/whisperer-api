@@ -27,7 +27,7 @@ Example:
 query {
   users {
     id
-    firstname
+    name
     surname
     email
     username
@@ -41,8 +41,7 @@ query {
 query {
   profile {
     id
-    firstname
-    surname
+    name
     email
     username
     whispers {
@@ -110,8 +109,7 @@ mutation {
       id
       username
       email
-      firstname
-      lastname
+      name
     }
   }
 }
