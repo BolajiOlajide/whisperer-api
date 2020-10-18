@@ -15,7 +15,7 @@ const { USER_TABLE_NAME, WHISPER_TABLE_NAME } = require('../utils/constants');
 module.exports = {
   Whisper: {
     whisperer: (parent, _, context) => {
-      return parent.whisperer || context.userLoader.load(parent.whisperer);
+      return parent.whisperer.id ? parent.whisper : context.userLoader.load(parent.whisperer);
     }
   },
   Comment: {
