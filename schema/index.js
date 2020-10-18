@@ -8,6 +8,7 @@ module.exports = gql`
     id: Int!
     username: String!
     email: String!
+    name: String!
   }
 
   type Whisperer {
@@ -26,12 +27,14 @@ module.exports = gql`
     username: String!
     email: String!
     whispers: [Whisper]!
+    name: String!
   }
 
   input NewUser {
     password: String!
     email: String!
     confirmPassword: String!
+    name: String!
   }
 
   input AuthPayload {
