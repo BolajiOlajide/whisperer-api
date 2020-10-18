@@ -7,7 +7,6 @@ const { createJwt } = require('../utils/jwt');
 const {
   USER_TABLE_NAME,
   WHISPER_TABLE_NAME,
-  TOKEN_COOKIE_KEY
 } = require('../utils/constants');
 const { encryptPassword, comparePassword } = require('../utils/password');
 const { pluckWhispers, pluckWhisperer } = require('../utils');
@@ -77,11 +76,6 @@ exports.userMutations = {
 
     const { password: userPassword, ...userInfo } = user;
 
-    context.response.cookie(TOKEN_COOKIE_KEY, token, {
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 365
-    });
-
     return { user: userInfo, token };
   },
   signin: async (_, args, context) => {
@@ -103,11 +97,6 @@ exports.userMutations = {
     if (!isPasswordValid) return wrongCredError();
 
     const token = createJwt(userInfo.id);
-
-    context.response.cookie(TOKEN_COOKIE_KEY, token, {
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 365
-    });
 
     return { user: userInfo, token };
   }

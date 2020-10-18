@@ -4,7 +4,6 @@ const config = require('lazy-config');
 const cors = require('cors');
 const depthLimit = require('graphql-depth-limit');
 const { createServer } = require('http');
-const cookieParser = require('cookie-parser');
 
 const typeDefs = require('./schema');
 const resolvers = require('./resolvers');
@@ -16,8 +15,6 @@ const app = express();
 
 const { graphqlpath, port, subscriptionsPath } = config.app
 
-// The ApolloServer constructor requires two parameters: your schema
-// definition and your set of resolvers.
 const apolloOpts = {
   introspection: true,
   typeDefs,
@@ -39,10 +36,7 @@ const apolloOpts = {
 };
 const server = new ApolloServer(apolloOpts);
 
-app.use(cors({
-  credentials: true // <-- REQUIRED backend setting
-}));
-app.use(cookieParser());
+app.use(cors({ credentials: true }));
 server.applyMiddleware({ app, path: graphqlpath });
 
 const httpServer = createServer(app)
