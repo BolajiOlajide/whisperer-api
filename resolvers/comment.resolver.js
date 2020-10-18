@@ -28,15 +28,22 @@ exports.commentMutations = {
     const [commentId] = await knex(COMMENT_TABLE_NAME)
       .insert(dbPayload);
 
-    // pubsub.publish(WHISPER_COMMENT_ADDED, response);
+    const response = {
+      id: commentId,
+      comment: args.payload.comment,
+      commenter: context.user.id,
+      whisper: args.payload.whisper
+    }
+
+    pubsub.publish(WHISPER_COMMENT_ADDED, response);
 
     return { ...args.payload, id: commentId, commenter: userId };
   }
 };
 
 exports.commentSubscriptions = {
-  // commentAdded: {
-  //   resolve: payload => payload,
-  //   subscribe: () => pubsub.asyncIterator(WHISPER_COMMENT_ADDED),
-  // }
+  commentAdded: {
+    resolve: payload => payload,
+    subscribe: () => pubsub.asyncIterator(WHISPER_COMMENT_ADDED),
+  }
 }

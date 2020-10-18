@@ -78,6 +78,7 @@ module.exports = gql`
   }
 
   type Subscription {
-    whisperAdded: Whisper
+    whisperAdded: Whisper!
+    commentAdded: Comment!
   }
 `;

@@ -28,9 +28,8 @@ module.exports = {
     // not using dataloader here so it'll fetch for each comment found
     // commenter: parent => knex(USER_TABLE_NAME)
     //   .select().where('id', parent.commenter).first(),
+    // a good explanation about the pros of data loaders
     whisper: parent => {
-      // another candidate for a data loader because this is called 3times
-      // and I'm too lazy to find out why
       return knex(WHISPER_TABLE_NAME)
         .select()
         .where('id', parent.whisper)
