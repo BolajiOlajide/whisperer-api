@@ -78,8 +78,7 @@ The following are the queries available on the whisperer API.
 mutation {
   createUser(
     payload: {
-      firstname: "Bolaji"
-      lastname: "Proton"
+      name: "Bolaji"
       email: "bolaji@proton.me"
       password: "password123"
       confirmPassword: "password123"
@@ -90,8 +89,7 @@ mutation {
       id
       username
       email
-      firstname
-      lastname
+      name
     }
   }
 }

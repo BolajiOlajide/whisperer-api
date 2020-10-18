@@ -8,8 +8,7 @@ const { encryptPassword } = require('../utils/password');
 
 const createUser = () => ({
   username: shortid.generate(),
-  firstname: F.name.firstName(),
-  lastname: F.name.lastName(),
+  name: F.name.firstName(),
   email: `${F.lorem.word()}_${F.random.number()}@gmail.com`,
   createdAt: new Date(),
   password: encryptPassword(F.lorem.word())

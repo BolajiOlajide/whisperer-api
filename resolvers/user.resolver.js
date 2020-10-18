@@ -16,7 +16,7 @@ exports.userQueries = {
     if (!context.user) return authError();
 
     return knex(USER_TABLE_NAME)
-      .select('id', 'firstname', 'lastname', 'email', 'username');
+      .select('id', 'email', 'username');
   },
   profile: async (_, args, context) => {
     if (!context.user) return authError();
@@ -48,8 +48,6 @@ exports.userMutations = {
     const {
       password,
       confirmPassword,
-      firstname,
-      lastname,
       email
     } = args.payload;
 
@@ -61,8 +59,6 @@ exports.userMutations = {
 
     const [userId] = await knex(USER_TABLE_NAME)
       .insert({
-        firstname,
-        lastname,
         email,
         username,
         password: encryptedPassword

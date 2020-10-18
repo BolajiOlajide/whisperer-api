@@ -7,8 +7,7 @@ exports.up = function (knex) {
   return knex.schema
     .createTable(USER_TABLE_NAME, table => {
       table.increments().comment('This is the primary key for this table');
-      table.string('firstname').notNullable().comment('The firstname identifier for the user');
-      table.string('lastname').notNullable();
+      table.string('name').notNullable().comment('The name of the user');
       table.string('email').notNullable().unique();
       table.string('username').notNullable().comment('randomly generated ID for this user');
       table.string('password').notNullable().comment('hashed password belonging to user');

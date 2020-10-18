@@ -2,8 +2,6 @@ const logger = require('winston');
 
 const {
   COMMENT_TABLE_NAME,
-  WHISPER_TABLE_NAME,
-  USER_TABLE_NAME
 } = require('../utils/constants');
 
 
@@ -18,6 +16,7 @@ exports.down = function (knex) {
   return knex.schema
     .alterTable(COMMENT_TABLE_NAME, table => {
       table.renameColumn('commenter', 'whisperer');
+      table.string('lastname').notNullable();
     })
     .catch(error => logger.error(error));
 };
