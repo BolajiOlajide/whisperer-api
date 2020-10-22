@@ -68,6 +68,7 @@ module.exports = gql`
     profile: Profile!,
     whispers(limit: Int, page: Int): [Whisper]!
     fetchWhisperComments(whisperId: Int!, limit: Int, page: Int): [Comment]!
+    noob: String!
   }
 
   type Mutation {

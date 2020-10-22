@@ -39,7 +39,8 @@ module.exports = {
   Query: {
     ...userQueries,
     ...whisperQueries,
-    ...commentQueries
+    ...commentQueries,
+    noob: () => 'Hello, noob!'
   },
   Mutation: {
     ...whisperMutations,
