@@ -9,7 +9,9 @@ exports.whisperQueries = {
   whispers: async (_, __, context) => {
     if (!context.user) return authError();
 
-    return knex(WHISPER_TABLE_NAME).select().orderBy('createdat');
+    return knex(WHISPER_TABLE_NAME)
+      .select()
+      .orderBy('createdat', 'desc');
   }
 }
 

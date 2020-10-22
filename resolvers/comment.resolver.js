@@ -16,7 +16,7 @@ exports.commentQueries = {
     return knex(COMMENT_TABLE_NAME)
       .select()
       .where('whisper', whisperId)
-      .orderBy('createdat');
+      .orderBy('createdat', 'desc');
   }
 };
 
