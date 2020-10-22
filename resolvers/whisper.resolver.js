@@ -9,7 +9,7 @@ exports.whisperQueries = {
   whispers: async (_, __, context) => {
     if (!context.user) return authError();
 
-    return knex(WHISPER_TABLE_NAME).select()
+    return knex(WHISPER_TABLE_NAME).select().orderBy('createdat');
   }
 }
 
@@ -17,7 +17,7 @@ exports.whisperMutations = {
   createWhisper: async (_, args, context) => {
     if (!context.user) return authError();
 
-    const { text } = args.payload
+    const { text } = args.payload;
 
     const [whisperId] = await knex(WHISPER_TABLE_NAME)
       .insert({ text, whisperer: context.user.id });
@@ -26,7 +26,7 @@ exports.whisperMutations = {
       id: whisperId,
       text,
       whisperer: context.user.id
-    }
+    };
 
     pubsub.publish(WHISPER_ADDED, whisper);
 
