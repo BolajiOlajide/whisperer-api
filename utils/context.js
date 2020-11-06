@@ -10,8 +10,6 @@ module.exports = ({ req, connection }) => {
     return connection.context;
   }
 
-  console.log(req.cookies, '<=== cookies');
-
   const token = req.headers.authorization || req.cookies['X-TOKEN'];
   let user;
 
