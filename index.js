@@ -39,7 +39,8 @@ const apolloOpts = {
 const server = new ApolloServer(apolloOpts);
 
 app.use(cors({ credentials: true, origin: validOrigins }));
-app.use(cookieParser())
+app.use(cookieParser());
+app.set('trust proxy', 1);
 server.applyMiddleware({ app, path: graphqlpath, cors: false });
 
 const httpServer = createServer(app)
@@ -49,4 +50,4 @@ httpServer.listen({ port }, () => console
   .info(`🚀 Server ready at http://localhost:${port}${graphqlpath}
 
 🚀 Subscriptions ready at ws://localhost:${port}${server.subscriptionsPath}`)
-)
+);
