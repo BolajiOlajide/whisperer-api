@@ -37,7 +37,7 @@ exports.userQueries = {
     const whispers = pluckWhispers(result);
     const whisperer = pluckWhisperer(result);
 
-    return { ...whisperer, whispers: whispers };
+    return { ...whisperer, whispers };
   }
 }
 

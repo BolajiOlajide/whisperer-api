@@ -4,6 +4,7 @@ const config = require('lazy-config');
 const cors = require('cors');
 const depthLimit = require('graphql-depth-limit');
 const { createServer } = require('http');
+const cookieParser = require('cookie-parser');
 
 const typeDefs = require('./schema');
 const resolvers = require('./resolvers');
@@ -15,6 +16,7 @@ const app = express();
 
 const { graphqlpath, port, subscriptionsPath } = config.app
 
+const validOrigins = ['http://localhost:3000', 'https://whisperer-ui.herokuapp.com'];
 const apolloOpts = {
   introspection: true,
   typeDefs,
@@ -36,8 +38,9 @@ const apolloOpts = {
 };
 const server = new ApolloServer(apolloOpts);
 
-app.use(cors({ credentials: true }));
-server.applyMiddleware({ app, path: graphqlpath });
+app.use(cors({ credentials: true, origin: validOrigins }));
+app.use(cookieParser())
+server.applyMiddleware({ app, path: graphqlpath, cors: false });
 
 const httpServer = createServer(app)
 server.installSubscriptionHandlers(httpServer)

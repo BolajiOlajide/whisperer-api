@@ -10,7 +10,9 @@ module.exports = ({ req, connection }) => {
     return connection.context;
   }
 
-  const token = req.headers.authorization || '';
+  console.log(req.cookies, '<=== cookies');
+
+  const token = req.headers.authorization || req.cookies['X-TOKEN'];
   let user;
 
   if (token) {
@@ -24,6 +26,6 @@ module.exports = ({ req, connection }) => {
   return {
     user,
     userLoader,
-    whisperLoader,
+    whisperLoader
   }
 }
